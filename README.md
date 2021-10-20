@@ -1,5 +1,8 @@
 # mutent-array
 
+[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![Coverage Status](https://coveralls.io/repos/github/greguz/mutent-array/badge.svg?branch=master)](https://coveralls.io/github/greguz/mutent-array?branch=master)
+
 Simple in memory adapter for [Mutent](https://github.com/greguz/mutent).
 
 ```javascript
