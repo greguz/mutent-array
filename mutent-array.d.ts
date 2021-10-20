@@ -9,7 +9,7 @@ export declare type ArrayQuery<T> = (item: T, index: number) => boolean;
 export declare type ArrayOptions = unknown;
 
 export default class ArrayAdapter<T>
-  implements Adapter<T, ArrayQuery<T>, unknown>
+  implements Adapter<T, ArrayQuery<T>, ArrayOptions>
 {
   constructor(items?: T[]);
   find(query: ArrayQuery<T>): T | undefined;
