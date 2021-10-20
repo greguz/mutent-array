@@ -2,18 +2,26 @@
   "name": "mutent-array",
   "version": "0.1.0",
   "description": "Simple array adapter for mutent",
-  "main": "mutent-array.js",
-  "types": "mutent-array.d.ts",
+  "type": "module",
+  "main": "./mutent-array.cjs",
+  "exports": {
+    "import": "./mutent-array.mjs",
+    "require": "./mutent-array.cjs"
+  },
+  "types": "./mutent-array.d.ts",
   "files": [
-    "mutent-array.js",
+    "mutent-array.cjs",
+    "mutent-array.mjs",
     "mutent-array.d.ts"
   ],
   "scripts": {
-    "lint": "eslint *.js",
-    "test": "ava",
-    "prepublishOnly": "npm run lint && npm run test"
+    "build": "rollup -c",
+    "lint": "standard **/*.mjs",
+    "test": "c8 -r text -r html -x **/*.spec.mjs ava",
+    "prepublishOnly": "npm run lint && npm run build && npm run test"
   },
   "keywords": [
+    "memory",
     "mutent",
     "adapter",
     "array"
@@ -21,15 +29,13 @@
   "author": "Giacomo Gregoletto",
   "license": "MIT",
   "peerDependencies": {
-    "mutent": "^5.0.0"
+    "mutent": "5.0.0-9"
   },
   "devDependencies": {
-    "ava": "^3.13.0",
-    "eslint": "^7.14.0",
-    "eslint-config-standard": "^16.0.2",
-    "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^4.2.1",
-    "mutent": "^5.0.0-2"
+    "ava": "4.0.0-alpha.2",
+    "c8": "^7.10.0",
+    "mutent": "5.0.0-9",
+    "rollup": "^2.58.0",
+    "standard": "^16.0.4"
   }
 }

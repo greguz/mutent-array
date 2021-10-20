@@ -1,15 +1,20 @@
 # mutent-array
 
-Simple array adapter for mutent
+Simple in memory adapter for [Mutent](https://github.com/greguz/mutent).
 
 ```javascript
-import { createStore } from 'mutent'
-import { createArrayAdapter } from 'mutent-array'
+import { Store } from 'mutent'
+import ArrayAdapter from 'mutent-array'
 
-const database = []
+const items = []
 
-const store = createStore({
-  name: 'MyMemoryStore',
-  adapter: createArrayAdapter(database)
+const store = new Store({
+  adapter: new ArrayAdapter(items)
 })
+
+store.create({ value: 42 })
+  .unwrap()
+  .then(data => {
+    console.log(`Creation result: ${data === items[0]}`)
+  })
 ```

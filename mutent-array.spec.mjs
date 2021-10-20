@@ -1,11 +1,11 @@
-const test = require('ava')
+import test from 'ava'
 
-const { createArrayAdapter } = require('./mutent-array')
+import ArrayAdapter from './mutent-array.mjs'
 
 test('find', t => {
   const items = [{ my: 'object' }]
 
-  const adapter = createArrayAdapter(items)
+  const adapter = new ArrayAdapter(items)
 
   t.is(adapter.find(item => item.my === 'object'), items[0])
   t.is(adapter.find(() => false), undefined)
@@ -19,7 +19,7 @@ test('filter', t => {
     { id: 1, name: 'Clyde' }
   ]
 
-  const adapter = createArrayAdapter(items)
+  const adapter = new ArrayAdapter(items)
 
   t.deepEqual(adapter.filter(() => false), [])
   t.deepEqual(adapter.filter(item => item.id === 1), [
@@ -29,34 +29,38 @@ test('filter', t => {
 })
 
 test('create', t => {
-  const items = []
-
-  const adapter = createArrayAdapter(items)
+  const adapter = new ArrayAdapter()
 
   adapter.create({ your: 'mom' })
 
-  t.deepEqual(items, [{ your: 'mom' }])
+  t.deepEqual(adapter.items, [{ your: 'mom' }])
   // That was slow!
 })
 
 test('update', t => {
   const items = [{ id: 0, name: 'phteven' }]
 
-  const adapter = createArrayAdapter(items)
+  const adapter = new ArrayAdapter(items)
 
   adapter.update(items[0], { id: 0, name: 'Steven' })
 
   t.deepEqual(items, [{ id: 0, name: 'Steven' }])
 
-  t.throws(() => adapter.update({}, {}))
+  t.throws(
+    () => adapter.update({}, {}),
+    { message: 'Cannot find the item to update' }
+  )
 })
 
 test('delete', t => {
   const items = [{ name: 'Trimagasi' }]
 
-  const adapter = createArrayAdapter(items)
+  const adapter = new ArrayAdapter(items)
 
-  t.throws(() => adapter.delete({}))
+  t.throws(
+    () => adapter.delete({}),
+    { message: 'Cannot find the item to delete' }
+  )
 
   // Bye Mr. Obviously
   adapter.delete(items[0])
