@@ -1,6 +1,7 @@
-export default class ArrayAdapter {
-  constructor (items) {
-    this.items = items || []
+export class ArrayAdapter {
+  constructor (options = {}) {
+    this.ignoreMissingItems = !!options.ignoreMissingItems
+    this.items = options.items || []
   }
 
   find (query) {
@@ -17,17 +18,19 @@ export default class ArrayAdapter {
 
   update (oldData, newData) {
     const index = this.items.findIndex(item => item === oldData)
-    if (index < 0) {
+    if (index >= 0) {
+      this.items.splice(index, 1, newData)
+    } else if (!this.ignoreMissingItems) {
       throw new Error('Cannot find the item to update')
     }
-    this.items.splice(index, 1, newData)
   }
 
   delete (data) {
     const index = this.items.findIndex(item => item === data)
-    if (index < 0) {
+    if (index >= 0) {
+      this.items.splice(index, 1)
+    } else if (!this.ignoreMissingItems) {
       throw new Error('Cannot find the item to delete')
     }
-    this.items.splice(index, 1)
   }
 }

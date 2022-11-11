@@ -8,17 +8,15 @@ Simple in memory adapter for [Mutent](https://github.com/greguz/mutent).
 
 ```javascript
 import { Store } from 'mutent'
-import ArrayAdapter from 'mutent-array'
-
-const items = []
+import { ArrayAdapter } from 'mutent-array'
 
 const store = new Store({
-  adapter: new ArrayAdapter(items)
+  adapter: new ArrayAdapter()
 })
 
 store.create({ value: 42 })
   .unwrap()
   .then(data => {
-    console.log(`Creation result: ${data === items[0]}`)
+    console.log(`Creation result: ${data === store.adapter.items[0]}`) // true
   })
 ```

@@ -1,31 +1,31 @@
 import test from 'ava'
 
-import ArrayAdapter from './mutent-array.mjs'
+import { ArrayAdapter } from './mutent-array.mjs'
 
 test('find', t => {
-  const items = [{ my: 'object' }]
+  const adapter = new ArrayAdapter({
+    items: [{ my: 'object' }]
+  })
 
-  const adapter = new ArrayAdapter(items)
-
-  t.is(adapter.find(item => item.my === 'object'), items[0])
+  t.is(adapter.find(item => item.my === 'object'), adapter.items[0])
   t.is(adapter.find(() => false), undefined)
 
-  t.deepEqual(items, [{ my: 'object' }])
+  t.deepEqual(adapter.items, [{ my: 'object' }])
 })
 
 test('filter', t => {
-  const items = [
-    { id: 0, name: 'Bonnie' },
-    { id: 1, name: 'Clyde' }
-  ]
-
-  const adapter = new ArrayAdapter(items)
+  const adapter = new ArrayAdapter({
+    items: [
+      { id: 0, name: 'Bonnie' },
+      { id: 1, name: 'Clyde' }
+    ]
+  })
 
   t.deepEqual(adapter.filter(() => false), [])
   t.deepEqual(adapter.filter(item => item.id === 1), [
     { id: 1, name: 'Clyde' }
   ])
-  t.deepEqual(adapter.filter(() => true), items)
+  t.deepEqual(adapter.filter(() => true), adapter.items)
 })
 
 test('create', t => {
@@ -38,13 +38,13 @@ test('create', t => {
 })
 
 test('update', t => {
-  const items = [{ id: 0, name: 'phteven' }]
+  const adapter = new ArrayAdapter({
+    items: [{ id: 0, name: 'phteven' }]
+  })
 
-  const adapter = new ArrayAdapter(items)
+  adapter.update(adapter.items[0], { id: 0, name: 'Steven' })
 
-  adapter.update(items[0], { id: 0, name: 'Steven' })
-
-  t.deepEqual(items, [{ id: 0, name: 'Steven' }])
+  t.deepEqual(adapter.items, [{ id: 0, name: 'Steven' }])
 
   t.throws(
     () => adapter.update({}, {}),
@@ -53,9 +53,9 @@ test('update', t => {
 })
 
 test('delete', t => {
-  const items = [{ name: 'Trimagasi' }]
-
-  const adapter = new ArrayAdapter(items)
+  const adapter = new ArrayAdapter({
+    items: [{ name: 'Trimagasi' }]
+  })
 
   t.throws(
     () => adapter.delete({}),
@@ -63,7 +63,7 @@ test('delete', t => {
   )
 
   // Bye Mr. Obviously
-  adapter.delete(items[0])
+  adapter.delete(adapter.items[0])
 
-  t.deepEqual(items, [])
+  t.deepEqual(adapter.items, [])
 })

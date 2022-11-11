@@ -1,4 +1,8 @@
-/node_modules
-/package-lock.json
-/coverage
-/mutent-array.cjs
+.*
+!.editorconfig
+!.github
+!.gitignore
+coverage
+mutent-array.cjs
+node_modules
+package-lock.json
