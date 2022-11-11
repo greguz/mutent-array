@@ -1,6 +1,6 @@
 {
   "name": "mutent-array",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "description": "Simple array adapter for mutent",
   "type": "module",
   "main": "./mutent-array.cjs",
